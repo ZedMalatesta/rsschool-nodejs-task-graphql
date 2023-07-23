@@ -4,11 +4,12 @@ import {
     GraphQLString,
     GraphQLNonNull,
     GraphQLInt,
-    GraphQLEnumType,
-    GraphQLSchema
+    GraphQLFloat,
+    GraphQLEnumType
 } from 'graphql';
 import {
-  getAllMemberTypes
+  getAllMemberTypes, 
+  getAllPosts
 } from './resolvers.js'
 import { ContextInterface } from '../types/types.js';
 import { UUIDType } from '../types/uuid.js'; 
@@ -27,25 +28,24 @@ const memberTypeEnum = new GraphQLEnumType({
 });
 
 const memberType = new GraphQLObjectType({
-    name: 'memberType',
+    name: 'MemberType',
     fields: () => ({
       id: { type: new GraphQLNonNull(memberTypeEnum) },
-      discount: { type: new GraphQLNonNull(GraphQLInt) },
-      monthPostsLimit: { type: new GraphQLNonNull(GraphQLInt) }
+      discount: { type: new GraphQLNonNull(GraphQLFloat) },
+      monthPostsLimit: { type: GraphQLInt },
     }),
 });
 
 const postType = new GraphQLObjectType({
-  name: 'memberType',
+  name: 'Post',
   fields: () => ({
-    id: { type: new GraphQLNonNull(memberTypeEnum) },
-    discount: { type: new GraphQLNonNull(GraphQLInt) },
-    monthPostsLimit: { type: new GraphQLNonNull(GraphQLInt) },
-    monthPostsLimit: { type: new GraphQLNonNull(GraphQLInt) }
+    id: { type: new GraphQLNonNull(UUIDType) },
+    title: { type: new GraphQLNonNull(GraphQLString) },
+    content: { type: new GraphQLNonNull(GraphQLString) }
   }),
 });
 
-const queryType = new GraphQLObjectType({
+export const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
     memberTypes: {
@@ -55,15 +55,15 @@ const queryType = new GraphQLObjectType({
         args, 
         context:ContextInterface
       ) => getAllMemberTypes(_source, args, context)
+    },
+    posts: {
+      type: new GraphQLList(postType),
+      resolve: (
+        _source, 
+        args, 
+        context:ContextInterface
+      ) => getAllPosts(_source, args, context)
     }
   }),
 });
 
-/**
- * Finally, we construct our schema (whose starting query type is the query
- * type we defined above) and export it.
- */
-export const MainQuery: GraphQLSchema = new GraphQLSchema({
-  query: queryType,
-  types: [memberType],
-});
