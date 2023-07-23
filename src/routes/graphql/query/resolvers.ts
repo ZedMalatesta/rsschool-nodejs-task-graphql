@@ -16,4 +16,20 @@ export const getAllPosts = async (
   return await context.prisma.post.findMany();
 };
 
+export const getPostByID = async (
+  _: any,
+  args: { id:string },
+  context: ContextInterface
+)=> {
+  const post = await context.prisma.post.findUnique({
+    where: {
+      id: args.id,
+    },
+  });
+  if (post === null) {
+    throw context.httpErrors.notFound();
+  }
+  return post;
+}
+
 

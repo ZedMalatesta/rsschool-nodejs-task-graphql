@@ -9,7 +9,8 @@ import {
 } from 'graphql';
 import {
   getAllMemberTypes, 
-  getAllPosts
+  getAllPosts,
+  getPostByID
 } from './resolvers.js'
 import { ContextInterface } from '../types/types.js';
 import { UUIDType } from '../types/uuid.js'; 
@@ -45,6 +46,7 @@ const postType = new GraphQLObjectType({
   }),
 });
 
+
 export const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: () => ({
@@ -63,6 +65,15 @@ export const queryType = new GraphQLObjectType({
         args, 
         context:ContextInterface
       ) => getAllPosts(_source, args, context)
+    },
+    post: {
+      type: postType,
+      args: { id: { type: new GraphQLNonNull(UUIDType) } },
+      resolve: (
+        _source, 
+        args,
+        context:ContextInterface
+      ) => getPostByID(_source, args, context)
     }
   }),
 });
