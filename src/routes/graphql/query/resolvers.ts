@@ -32,6 +32,24 @@ export const getAllUsers = async (
   return await context.prisma.user.findMany();
 };
 
+export const getMemberTypeByID = async (
+  parent: any,
+  args: { id:any },
+  context: ContextInterface
+)=> {
+  const memberType = await context.prisma.memberType.findUnique({
+    where: {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      id: args.id,
+    },
+  });
+  if (memberType === null) {
+    throw context.httpErrors.notFound();
+  }
+  return memberType;
+}
+
+
 export const getUserByID = async (
   parent: any,
   args: { userId:string },
@@ -47,7 +65,6 @@ export const getUserByID = async (
   }
   return user;
 }
-
 
 export const getPostByID = async (
   parent: any,
@@ -67,25 +84,43 @@ export const getPostByID = async (
 
 
 export const getPostsByUserID = async (
-  parent: { userId: string },
+  parent: { id: string },
   args: any,
   context: ContextInterface
 )=> {
   return await context.prisma.post.findMany({
     where: {
-      authorId: parent.userId,
+      authorId: parent.id,
     },
   });
 }
 
-export const getProfileByUserID = async (
-  parent: { userId: string },
-  args: any,
+export const getProfileByID = async (
+  parent: any,
+  args: { id:string },
   context: ContextInterface
 )=> {
   const profile = await context.prisma.profile.findUnique({
     where: {
-      userId: parent.userId,
+      id: args.id,
+    },
+  });
+  if (profile === null) {
+    throw context.httpErrors.notFound();
+  }
+  return profile;
+}
+
+
+export const getProfileByUserID = async (
+  parent: { id: string },
+  args: any,
+  context: ContextInterface
+)=> {
+  console.log(parent, "parent")
+  const profile = await context.prisma.profile.findUnique({
+    where: {
+      userId: parent.id,
     },
   });
   if (profile === null) {

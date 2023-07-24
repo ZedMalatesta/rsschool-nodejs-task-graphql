@@ -17,12 +17,14 @@ import {
   getUserByID,
   getPostsByUserID,
   getProfileByUserID,
+  getProfileByID,
+  getMemberTypeByID,
 } from './resolvers.js'
 import { ContextInterface } from '../types/types.js';
 import { UUIDType } from '../types/uuid.js'; 
 
 const memberTypeEnum = new GraphQLEnumType({
-    name: 'memberType',
+    name: 'MemberTypeEnum',
     values: {
         BASIC: {
             value: 'basic'
@@ -72,7 +74,7 @@ export const userType: GraphQLObjectType = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(postType),
       resolve: (
-        parent: { userId: string }, 
+        parent: { id: string }, 
         args, 
         context:ContextInterface
       ) => getPostsByUserID(parent, args, context)
@@ -80,7 +82,7 @@ export const userType: GraphQLObjectType = new GraphQLObjectType({
     proflie: {
       type: profileType,
       resolve: (
-        parent: { userId: string }, 
+        parent: { id: string }, 
         args, 
         context:ContextInterface
       ) => getProfileByUserID(parent, args, context)
@@ -98,6 +100,15 @@ export const queryType = new GraphQLObjectType({
         args, 
         context:ContextInterface
       ) => getAllMemberTypes(parent, args, context)
+    },
+    memberType: {
+      type: memberType,
+      args: { id: { type: memberTypeEnum } },
+      resolve: (
+        parent, 
+        args: { id:any },
+        context:ContextInterface
+      ) => getMemberTypeByID(parent, args, context)
     },
     posts: {
       type: new GraphQLList(postType),
@@ -123,6 +134,15 @@ export const queryType = new GraphQLObjectType({
         args, 
         context:ContextInterface
       ) => getAllProfiles(parent, args, context)
+    },
+    profile: {
+      type: profileType,
+      args: { id: { type: new GraphQLNonNull(UUIDType) } },
+      resolve: (
+        parent, 
+        args: { id:string },
+        context:ContextInterface
+      ) => getProfileByID(parent, args, context)
     },
     users: {
       type: new GraphQLList(userType),
