@@ -1,12 +1,15 @@
 import { 
     ContextInterface,
-    CreatePostInterface,
     CreateProfileInterface,
+    CreatePostInterface,
     CreateUserInterface,
-} from "../types/types.js";
+    ChangeProfileInterface,
+    ChangePostInterface,
+    ChangeUserInterface 
+  } from '../types/types.js';
 
 export const createPost = async (
-    parent: any,
+    _parent: any,
     args: CreatePostInterface,
     context: ContextInterface
   )=> {
@@ -16,7 +19,7 @@ export const createPost = async (
 }
 
 export const createProfile = async (
-    parent: any,
+    _parent: any,
     args: CreateProfileInterface,
     context: ContextInterface
   )=> {
@@ -26,7 +29,7 @@ export const createProfile = async (
 }
 
 export const createUser = async (
-    parent: any,
+    _parent: any,
     args: CreateUserInterface,
     context: ContextInterface
   )=> {
@@ -37,7 +40,7 @@ export const createUser = async (
   
 
 export const deletePost = async (
-    parent: any,
+    _parent: any,
     args: { id:string },
     context: ContextInterface
   )=> {
@@ -53,7 +56,7 @@ export const deletePost = async (
 }
 
 export const deleteProfile = async (
-    parent: any,
+    _parent: any,
     args: { id:string },
     context: ContextInterface
   )=> {
@@ -69,7 +72,7 @@ export const deleteProfile = async (
 }
 
 export const deleteUser = async (
-    parent: any,
+    _parent: any,
     args: { id:string },
     context: ContextInterface
   )=> {
@@ -83,3 +86,38 @@ export const deleteUser = async (
     catch(err) { return false }
     return true
 }
+
+
+export const updatePost = async (
+    _parent,
+    args: ChangePostInterface,
+    context: ContextInterface
+  )=> {
+    return context.prisma.post.update({
+        where: { id: args.id },
+        data: args.dto,
+    });
+}
+
+export const updateProfile = async (
+    _parent,
+    args: ChangeProfileInterface,
+    context: ContextInterface
+  )=> {
+    return context.prisma.profile.update({
+        where: { id: args.id },
+        data: args.dto,
+    });
+}
+
+export const updateUser = async (
+    _parent,
+    args: ChangeUserInterface,
+    context: ContextInterface
+  )=> {
+    return context.prisma.user.update({
+        where: { id: args.id },
+        data: args.dto,
+    });
+}
+

@@ -9,6 +9,15 @@ import {
   profileType,
   userType
 } from './query/queryTypes.js';
+import { 
+  changePostInput,
+  changeProfileInput,
+  changeUserInput,
+  createPostInput,
+  createProfileInput,
+  createUserInput
+} from './mutations/inputs.js';
+
 
 export const gqlResponseSchema = Type.Partial(
   Type.Object({
@@ -37,7 +46,13 @@ export const schema: GraphQLSchema = new GraphQLSchema({
     memberType,
     postType,
     profileType,
-    userType
+    userType,
+    changePostInput,
+    changeProfileInput,
+    changeUserInput,
+    createPostInput,
+    createProfileInput,
+    createUserInput
   ]
 });
 

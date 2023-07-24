@@ -1,12 +1,16 @@
 import { 
   GraphQLObjectType,
-  GraphQLBoolean
+  GraphQLBoolean,
+  GraphQLNonNull
 } from "graphql";
 import { 
   ContextInterface,
   CreateProfileInterface,
   CreatePostInterface,
-  CreateUserInterface 
+  CreateUserInterface,
+  ChangeProfileInterface,
+  ChangePostInterface,
+  ChangeUserInterface 
 } from '../types/types.js';
 import { 
     postType, 
@@ -16,7 +20,10 @@ import {
  import {
   createPostInput,
   createProfileInput,
-  createUserInput
+  createUserInput,
+  changePostInput,
+  changeProfileInput,
+  changeUserInput
  } from './inputs.js'
 import {
   createUser,
@@ -24,7 +31,10 @@ import {
   createProfile,
   deleteProfile,
   deletePost,
-  deleteUser
+  deleteUser,
+  updatePost,
+  updateProfile,
+  updateUser
 } from './resolvers.js'
 import { UUIDType } from "../types/uuid.js";
 
@@ -60,7 +70,7 @@ export const mutationType = new GraphQLObjectType({
       },
       deletePost: {
         type: GraphQLBoolean,
-        args: { id: { type: UUIDType } },
+        args: { id: { type: new GraphQLNonNull(UUIDType) } },
         resolve: (
           parent, 
           args: { id:string },
@@ -69,7 +79,7 @@ export const mutationType = new GraphQLObjectType({
       },
       deleteProfile: {
         type: GraphQLBoolean,
-        args: { id: { type: UUIDType } },
+        args: { id: { type: new GraphQLNonNull(UUIDType) } },
         resolve: (
           parent, 
           args: { id:string },
@@ -78,12 +88,48 @@ export const mutationType = new GraphQLObjectType({
       },
       deleteUser: {
         type: GraphQLBoolean,
-        args: { id: { type: UUIDType } },
+        args: { id: { type: new GraphQLNonNull(UUIDType) } },
         resolve: (
           parent, 
           args: { id:string },
           context:ContextInterface
         ) => deleteUser(parent, args, context)
+      },
+      changePost: {
+        type: postType,
+        args: { 
+          id: { type: new GraphQLNonNull(UUIDType) },
+          dto: { type: changePostInput } 
+        },
+        resolve: (
+          parent, 
+          args: ChangePostInterface,
+          context:ContextInterface
+        ) => updatePost(parent, args, context)
+      },
+      changeProfile: {
+        type: profileType,
+        args: { 
+          id: { type: new GraphQLNonNull(UUIDType) },
+          dto: { type: changeProfileInput } 
+        },
+        resolve: (
+          parent, 
+          args: ChangeProfileInterface,
+          context:ContextInterface
+        ) => updateProfile(parent, args, context)
+      },
+      changeUser: {
+        type: userType,
+        args: { 
+          id: { type: new GraphQLNonNull(UUIDType) },
+          dto: { type: changeUserInput } 
+        },
+        resolve: (
+          parent, 
+          args: ChangeUserInterface,
+          context:ContextInterface
+        ) => updateUser(parent, args, context)
       },
     }),
     

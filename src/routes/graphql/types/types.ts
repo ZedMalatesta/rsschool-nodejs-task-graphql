@@ -1,7 +1,6 @@
 import { HttpErrors } from "@fastify/sensible/lib/httpError.js"
 import { PrismaClient } from "@prisma/client"
 
-
 export interface ContextInterface {
     prisma: PrismaClient,
     httpErrors: HttpErrors
@@ -40,6 +39,23 @@ export interface CreateUserInterface {
         balance: number;
     }
 }
+
+export interface ChangeUserInterface extends CreateUserInterface {
+    id:string;
+}
+
+export interface CreatePostInterface {
+    dto:{
+        authorId: string;
+        title: string;
+        content: string;
+    }
+};
+
+export interface ChangePostInterface extends CreatePostInterface {
+    id:string;
+}
+
 export interface CreateProfileInterface {
     dto:{
         isMale: boolean;
@@ -48,10 +64,13 @@ export interface CreateProfileInterface {
         memberTypeId: string;
     }
 };
-export interface CreatePostInterface {
+
+export interface ChangeProfileInterface {
+    id:string,
     dto:{
-        authorId: string;
-        title: string;
-        content: string;
+        isMale: boolean;
+        yearOfBirth: number;
+        userId: string;
+        memberTypeId: string;
     }
 };
