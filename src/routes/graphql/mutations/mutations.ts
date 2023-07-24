@@ -34,7 +34,9 @@ import {
   deleteUser,
   updatePost,
   updateProfile,
-  updateUser
+  updateUser,
+  subscribeUser,
+  unsubscribeFrom
 } from './resolvers.js'
 import { UUIDType } from "../types/uuid.js";
 
@@ -130,6 +132,36 @@ export const mutationType = new GraphQLObjectType({
           args: ChangeUserInterface,
           context:ContextInterface
         ) => updateUser(parent, args, context)
+      },
+      subscribeTo: {
+        type: userType,
+        args: { 
+          userId: { type: new GraphQLNonNull(UUIDType) }, 
+          authorId: { type: new GraphQLNonNull(UUIDType) } 
+        },
+        resolve: (
+          parent, 
+          args: { 
+            userId: string,
+            authorId: string
+          },
+          context:ContextInterface
+        ) => subscribeUser(parent, args, context)
+      },
+      unsubscribeFrom: {
+        type: GraphQLBoolean,
+        args: { 
+          userId: { type: new GraphQLNonNull(UUIDType) }, 
+          authorId: { type: new GraphQLNonNull(UUIDType) } 
+        },
+        resolve: (
+          parent, 
+          args: { 
+            userId: string,
+            authorId: string
+          },
+          context:ContextInterface
+        ) => unsubscribeFrom(parent, args, context)
       },
     }),
     

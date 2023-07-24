@@ -121,3 +121,47 @@ export const updateUser = async (
     });
 }
 
+export const subscribeUser = async (
+  _parent,
+  args: { 
+    userId: string,
+    authorId: string
+  },
+  context: ContextInterface
+)=> {
+  return context.prisma.user.update({
+    where: {
+      id: args.userId,
+    },
+    data: {
+      userSubscribedTo: {
+        create: {
+          authorId: args.authorId,
+        },
+      },
+    },
+  });
+}
+
+export const unsubscribeFrom = async (
+  _parent,
+  args: { 
+    userId: string,
+    authorId: string
+  },
+  context: ContextInterface
+)=> {    
+  try{
+    await context.prisma.subscribersOnAuthors.delete({
+      where: {
+        subscriberId_authorId: {
+          subscriberId: args.userId,
+          authorId: args.authorId,
+        },
+      },
+    });
+  }
+  catch(err) { return false }
+  return true
+}
+
