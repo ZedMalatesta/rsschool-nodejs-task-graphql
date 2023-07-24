@@ -34,4 +34,24 @@ export interface MemberTypeInterface {
     postsLimitPerMonth: number;
   };
   
-  
+export interface CreateUserInterface {
+    dto:{
+        name: string;
+        balance: number;
+    }
+}
+export interface CreateProfileInterface {
+    dto:{
+        isMale: boolean;
+        yearOfBirth: number;
+        userId: string;
+        memberTypeId: string;
+    }
+};
+export interface CreatePostInterface {
+    dto:{
+        authorId: string;
+        title: string;
+        content: string;
+    }
+};

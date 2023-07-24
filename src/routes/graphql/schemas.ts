@@ -1,6 +1,7 @@
 import { Type } from '@fastify/type-provider-typebox';
 import { GraphQLSchema } from 'graphql';
 import { queryType } from './query/queryTypes.js';
+import { mutationType } from './mutations/mutations.js';
 import { 
   memberTypeEnum,
   memberType,
@@ -30,6 +31,7 @@ export const createGqlResponseSchema = {
 
 export const schema: GraphQLSchema = new GraphQLSchema({
   query: queryType,
+  mutation: mutationType,
   types: [
     memberTypeEnum, 
     memberType,

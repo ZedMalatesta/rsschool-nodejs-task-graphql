@@ -69,12 +69,12 @@ export const getUserByID = async (
   args: { id:string },
   context: ContextInterface
 ): Promise<UserInterface> => {
-  const user:UserInterface = await context.prisma.user.findUnique({
+  const user = await context.prisma.user.findUnique({
     where: {
       id: args.id,
     },
-  }) as UserInterface;
-  return user;
+  });
+  return user as UserInterface;
 }
 
 export const getUserSubscribedTo = async (

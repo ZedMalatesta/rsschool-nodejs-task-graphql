@@ -1,26 +1,55 @@
 import { GraphQLObjectType } from "graphql";
 import { 
-    postType
+  ContextInterface,
+  CreateProfileInterface,
+  CreatePostInterface,
+  CreateUserInterface 
+} from '../types/types.js';
+import { 
+    postType, 
+    profileType, 
+    userType
  } from "../query/queryTypes.js";
+ import {
+  createPostInput,
+  createProfileInput,
+  createUserInput
+ } from './inputs.js'
+import {
+  createUser,
+  createPost,
+  createProfile
+} from './resolvers.js'
 
-export const Mutations = new GraphQLObjectType({
+export const mutationType = new GraphQLObjectType({
     name: 'Mutation',
     fields: () => ({
       createPost: {
         type: postType,
-        args: { dto: { type: CreatePostInputType } },
-        resolve: createPost
+        args: { dto: { type: createPostInput } },
+        resolve: (
+          parent, 
+          args: CreatePostInterface,
+          context:ContextInterface
+        ) => createPost(parent, args, context)
       },
       createProfile: {
-        type: ProfileType,
-        args: { dto: { type: CreateProfileInputType } },
-        resolve: createProfile
+        type: profileType,
+        args: { dto: { type: createProfileInput } },
+        resolve: (
+          parent, 
+          args: CreateProfileInterface,
+          context:ContextInterface
+        ) => createProfile(parent, args, context)
       },
       createUser: {
-        type: UserType,
-        args: { dto: { type: CreateUserInputType } },
-        resolve: CreateUser,
+        type: userType,
+        args: { dto: { type: createUserInput } },
+        resolve: (
+          parent, 
+          args: CreateUserInterface,
+          context:ContextInterface
+        ) => createUser(parent, args, context)
       },
     }),
-  });
-  
+});
