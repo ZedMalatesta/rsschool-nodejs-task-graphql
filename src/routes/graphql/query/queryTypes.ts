@@ -24,7 +24,7 @@ import { ContextInterface } from '../types/types.js';
 import { UUIDType } from '../types/uuid.js'; 
 
 export const memberTypeEnum = new GraphQLEnumType({
-    name: 'MemberTypeEnum',
+    name: 'MemberTypeId',
     values: {
         BASIC: {
             value: 'basic'
@@ -40,7 +40,7 @@ export const memberType = new GraphQLObjectType({
     fields: () => ({
       id: { type: new GraphQLNonNull(memberTypeEnum) },
       discount: { type: new GraphQLNonNull(GraphQLFloat) },
-      monthPostsLimit: { type: GraphQLInt },
+      postsLimitPerMonth: { type: GraphQLInt },
     }),
 });
 
@@ -79,7 +79,7 @@ export const userType: GraphQLObjectType = new GraphQLObjectType({
         context:ContextInterface
       ) => getPostsByUserID(parent, args, context)
     },
-    proflie: {
+    profile: {
       type: profileType,
       resolve: (
         parent: { id: string }, 
@@ -154,10 +154,10 @@ export const queryType = new GraphQLObjectType({
     },
     user: {
       type: userType,
-      args: { userId: { type: new GraphQLNonNull(UUIDType) } },
+      args: { id: { type: new GraphQLNonNull(UUIDType) } },
       resolve: (
         parent, 
-        args: { userId:string },
+        args: { id:string },
         context:ContextInterface
       ) => getUserByID(parent, args, context)
     }

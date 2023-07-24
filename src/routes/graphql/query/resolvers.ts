@@ -52,12 +52,12 @@ export const getMemberTypeByID = async (
 
 export const getUserByID = async (
   parent: any,
-  args: { userId:string },
+  args: { id:string },
   context: ContextInterface
 )=> {
   const user = await context.prisma.user.findUnique({
     where: {
-      id: args.userId,
+      id: args.id,
     },
   });
   if (user === null) {
