@@ -1,4 +1,7 @@
-import { GraphQLObjectType } from "graphql";
+import { 
+  GraphQLObjectType,
+  GraphQLBoolean
+} from "graphql";
 import { 
   ContextInterface,
   CreateProfileInterface,
@@ -18,8 +21,12 @@ import {
 import {
   createUser,
   createPost,
-  createProfile
+  createProfile,
+  deleteProfile,
+  deletePost,
+  deleteUser
 } from './resolvers.js'
+import { UUIDType } from "../types/uuid.js";
 
 export const mutationType = new GraphQLObjectType({
     name: 'Mutation',
@@ -51,5 +58,33 @@ export const mutationType = new GraphQLObjectType({
           context:ContextInterface
         ) => createUser(parent, args, context)
       },
+      deletePost: {
+        type: GraphQLBoolean,
+        args: { id: { type: UUIDType } },
+        resolve: (
+          parent, 
+          args: { id:string },
+          context:ContextInterface
+        ) => deletePost(parent, args, context)
+      },
+      deleteProfile: {
+        type: GraphQLBoolean,
+        args: { id: { type: UUIDType } },
+        resolve: (
+          parent, 
+          args: { id:string },
+          context:ContextInterface
+        ) => deleteProfile(parent, args, context)
+      },
+      deleteUser: {
+        type: GraphQLBoolean,
+        args: { id: { type: UUIDType } },
+        resolve: (
+          parent, 
+          args: { id:string },
+          context:ContextInterface
+        ) => deleteUser(parent, args, context)
+      },
     }),
+    
 });

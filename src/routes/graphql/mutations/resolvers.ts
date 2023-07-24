@@ -35,3 +35,51 @@ export const createUser = async (
     });
 }
   
+
+export const deletePost = async (
+    parent: any,
+    args: { id:string },
+    context: ContextInterface
+  )=> {
+    try{
+        await context.prisma.post.delete({
+            where: {
+              id: args.id,
+            },
+        });
+    }
+    catch(err) { return false }
+    return true
+}
+
+export const deleteProfile = async (
+    parent: any,
+    args: { id:string },
+    context: ContextInterface
+  )=> {
+    try{
+        await context.prisma.profile.delete({
+            where: {
+              id: args.id,
+            },
+        });
+    }
+    catch(err) { return false }
+    return true
+}
+
+export const deleteUser = async (
+    parent: any,
+    args: { id:string },
+    context: ContextInterface
+  )=> {
+    try{
+        await context.prisma.user.delete({
+            where: {
+              id: args.id,
+            },
+        });
+    }
+    catch(err) { return false }
+    return true
+}
