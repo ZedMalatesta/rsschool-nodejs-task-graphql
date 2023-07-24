@@ -1,4 +1,10 @@
 import { ContextInterface } from '../types/types.js';
+import { 
+  UserInterface,
+  ProfileInterface,
+  PostInterface, 
+  MemberTypeInterface 
+} from '../types/types.js';
 
 export const getAllMemberTypes = async (
     parent: any,
@@ -62,12 +68,12 @@ export const getUserByID = async (
   parent: any,
   args: { id:string },
   context: ContextInterface
-)=> {
-  const user = await context.prisma.user.findUnique({
+): Promise<UserInterface> => {
+  const user:UserInterface = await context.prisma.user.findUnique({
     where: {
       id: args.id,
     },
-  });
+  }) as UserInterface;
   return user;
 }
 
