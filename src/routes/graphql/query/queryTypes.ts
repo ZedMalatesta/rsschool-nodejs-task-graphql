@@ -13,12 +13,13 @@ import {
   getAllPosts,
   getAllProfiles,
   getAllUsers,
+  getMemberTypeByID,
+  getMemberTypeByParentID,
   getPostByID,
   getUserByID,
   getPostsByUserID,
   getProfileByUserID,
   getProfileByID,
-  getMemberTypeByID,
   getSubscribedToUser,
   getUserSubscribedTo
 } from './resolvers.js'
@@ -63,6 +64,14 @@ export const profileType = new GraphQLObjectType({
     isMale: { type: new GraphQLNonNull(GraphQLBoolean) },
     yearOfBirth: { type: new GraphQLNonNull(GraphQLInt) },
     memberTypeId: { type: new GraphQLNonNull(memberTypeEnum) },
+    memberType: {
+      type: memberType,
+      resolve: (
+        parent: { memberTypeId: string }, 
+        args, 
+        context:ContextInterface
+      ) => getMemberTypeByParentID(parent, args, context)
+    },
     userId: { type: UUIDType },
   }),
 });

@@ -34,12 +34,11 @@ export const getAllUsers = async (
 
 export const getMemberTypeByID = async (
   parent: any,
-  args: { id:any },
+  args: { id:string },
   context: ContextInterface
 )=> {
   const memberType = await context.prisma.memberType.findUnique({
     where: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       id: args.id,
     },
   });
@@ -49,6 +48,21 @@ export const getMemberTypeByID = async (
   return memberType;
 }
 
+export const getMemberTypeByParentID = async (
+  parent: { memberTypeId: string },
+  args: any,
+  context: ContextInterface
+)=> {
+  const memberType = await context.prisma.memberType.findUnique({
+    where: {
+      id: parent.memberTypeId,
+    },
+  });
+  if (memberType === null) {
+    throw context.httpErrors.notFound();
+  }
+  return memberType;
+}
 
 export const getUserByID = async (
   parent: any,
@@ -149,7 +163,6 @@ export const getProfileByUserID = async (
   args: any,
   context: ContextInterface
 )=> {
-  console.log(parent, "parent")
   const profile = await context.prisma.profile.findUnique({
     where: {
       userId: parent.id,
