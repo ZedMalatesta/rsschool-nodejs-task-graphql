@@ -42,9 +42,6 @@ export const getMemberTypeByID = async (
       id: args.id,
     },
   });
-  if (memberType === null) {
-    throw context.httpErrors.notFound();
-  }
   return memberType;
 }
 
@@ -58,9 +55,6 @@ export const getMemberTypeByParentID = async (
       id: parent.memberTypeId,
     },
   });
-  if (memberType === null) {
-    throw context.httpErrors.notFound();
-  }
   return memberType;
 }
 
@@ -74,9 +68,6 @@ export const getUserByID = async (
       id: args.id,
     },
   });
-  if (user === null) {
-    throw context.httpErrors.notFound();
-  }
   return user;
 }
 
@@ -122,9 +113,6 @@ export const getPostByID = async (
       id: args.id,
     },
   });
-  if (post === null) {
-    throw context.httpErrors.notFound();
-  }
   return post;
 }
 
@@ -151,9 +139,6 @@ export const getProfileByID = async (
       id: args.id,
     },
   });
-  if (profile === null) {
-    throw context.httpErrors.notFound();
-  }
   return profile;
 }
 
@@ -168,9 +153,6 @@ export const getProfileByUserID = async (
       userId: parent.id,
     },
   });
-  if (profile === null) {
-    throw context.httpErrors.notFound();
-  }
   return profile;
 }
 

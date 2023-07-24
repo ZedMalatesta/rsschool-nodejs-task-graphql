@@ -29,10 +29,10 @@ import { UUIDType } from '../types/uuid.js';
 export const memberTypeEnum = new GraphQLEnumType({
     name: 'MemberTypeId',
     values: {
-        BASIC: {
+      basic: {
             value: 'basic'
         },
-        BUSINESS: {
+        business: {
             value: 'business'
         }
     },
