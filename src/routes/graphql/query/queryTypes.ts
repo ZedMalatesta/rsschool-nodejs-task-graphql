@@ -19,6 +19,8 @@ import {
   getProfileByUserID,
   getProfileByID,
   getMemberTypeByID,
+  getSubscribedToUser,
+  getUserSubscribedTo
 } from './resolvers.js'
 import { ContextInterface } from '../types/types.js';
 import { UUIDType } from '../types/uuid.js'; 
@@ -86,8 +88,24 @@ export const userType: GraphQLObjectType = new GraphQLObjectType({
         args, 
         context:ContextInterface
       ) => getProfileByUserID(parent, args, context)
-    }
-  }),
+    },
+    userSubscribedTo: {
+      type: new GraphQLList(userType),
+      resolve: (
+        parent: { id: string }, 
+        args, 
+        context:ContextInterface
+      ) => getUserSubscribedTo(parent, args, context)
+    },
+    subscribedToUser: {
+      type: new GraphQLList(userType),
+      resolve: (
+        parent: { id: string }, 
+        args, 
+        context:ContextInterface
+      ) => getSubscribedToUser(parent, args, context)
+    },
+ }),
 });
 
 export const queryType = new GraphQLObjectType({

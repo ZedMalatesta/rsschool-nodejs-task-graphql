@@ -66,6 +66,38 @@ export const getUserByID = async (
   return user;
 }
 
+export const getUserSubscribedTo = async (
+  parent: { id:string },
+  args: any,
+  context: ContextInterface
+)=> {
+  return await context.prisma.user.findMany({
+    where: {
+      subscribedToUser: {
+        some: {
+          subscriberId: parent.id,
+        },
+      },
+    },
+  });
+}
+
+export const getSubscribedToUser = async (
+  parent: { id:string },
+  args: any,
+  context: ContextInterface
+)=> {
+  return await context.prisma.user.findMany({
+    where: {
+      userSubscribedTo: {
+        some: {
+          authorId: parent.id,
+        },
+      },
+    },
+  });
+}
+
 export const getPostByID = async (
   parent: any,
   args: { id:string },
