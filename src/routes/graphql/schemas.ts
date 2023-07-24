@@ -1,6 +1,7 @@
 import { Type } from '@fastify/type-provider-typebox';
 import { GraphQLSchema } from 'graphql';
 import { queryType } from './query/queryTypes.js';
+import { memberTypeEnum } from './query/queryTypes.js';
 
 export const gqlResponseSchema = Type.Partial(
   Type.Object({
@@ -22,6 +23,7 @@ export const createGqlResponseSchema = {
 };
 
 export const schema: GraphQLSchema = new GraphQLSchema({
-  query: queryType
+  query: queryType,
+  types: [memberTypeEnum]
 });
 

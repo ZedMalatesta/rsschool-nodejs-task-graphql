@@ -23,7 +23,7 @@ import {
 import { ContextInterface } from '../types/types.js';
 import { UUIDType } from '../types/uuid.js'; 
 
-const memberTypeEnum = new GraphQLEnumType({
+export const memberTypeEnum = new GraphQLEnumType({
     name: 'MemberTypeEnum',
     values: {
         BASIC: {
@@ -35,7 +35,7 @@ const memberTypeEnum = new GraphQLEnumType({
     },
 });
 
-const memberType = new GraphQLObjectType({
+export const memberType = new GraphQLObjectType({
     name: 'MemberType',
     fields: () => ({
       id: { type: new GraphQLNonNull(memberTypeEnum) },
@@ -44,7 +44,7 @@ const memberType = new GraphQLObjectType({
     }),
 });
 
-const postType = new GraphQLObjectType({
+export const postType = new GraphQLObjectType({
   name: 'Post',
   fields: () => ({
     id: { type: new GraphQLNonNull(UUIDType) },
